@@ -1,0 +1,23 @@
+{
+  "Data Profile": [
+    "Numeric summary: min, max, average, total for all numeric columns",
+    "How many unique values in each column? (sorted least to most)",
+    "Show data types and sample value for each column",
+    "Show 20 random rows from the dataset",
+    "Which numeric columns have the highest spread between min and max?"
+  ],
+  "Quality Check": [
+    "Missing value percentage for each column (sorted highest to lowest)",
+    "Count of duplicate rows in the dataset",
+    "Columns with fewer than 3 unique values (near-constant columns)",
+    "Rows where any numeric column contains a zero value",
+    "Which columns have more than 50% missing values?"
+  ],
+  "Business Insights": [
+    "Which category has the highest total across all numeric columns?",
+    "Show rows where any numeric value exceeds twice the column average",
+    "Rank all categories by their average numeric value from highest to lowest",
+    "What percentage of total does each category contribute?",
+    "Show the top 5 and bottom 5 records by the most important numeric column"
+  ]
+}
