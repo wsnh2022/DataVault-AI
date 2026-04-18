@@ -63,7 +63,8 @@ Upload CSV/Excel
 User types a question
     -> QueryPipeline.run(question, db_path, active_table=...)
             [LangGraph nodes]
-            fast_path           exact snippet match -> pandas (no LLM, instant)
+            fast_path           exact snippet match -> pandas result (skips SQL generation
+                                and execution; narration LLM still runs)
             follow_up_detector  reads follow_up_enabled flag from UI toggle
                                 ON + valid prev SQL -> cte_follow_up
                                 OFF -> fresh query against full dataset
@@ -74,10 +75,10 @@ User types a question
             validator           block destructive keywords
             executor            run SELECT -> DataFrame (retry once on error)
             empty_check         retry once with broader prompt if zero rows
-            narrator            DataFrame -> structured markdown (second LLM call)
+            narrator            DataFrame -> structured markdown (LLM call)
             grounding           confirm narration numbers match the data
 
-QueryResult(sql, df, narration, grounding, error, retried, is_follow_up, sample_csv)
+QueryResult(question, sql, df, narration, grounding, error, retried, is_follow_up)
     -> NiceGUI: narration card + SQL expansion + scrollable table + PDF/Excel buttons
     -> LLM log saved: question + model + token usage
 ```
