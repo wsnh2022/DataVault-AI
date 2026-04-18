@@ -79,7 +79,7 @@ Chat history persists across restarts via SQLite.
 
 | Node | Role |
 |---|---|
-| `fast_path` | Detects exact prompt snippet matches and dispatches directly to pandas - no LLM call, no SQL |
+| `fast_path` | Exact snippet matches or percentile patterns → pandas result. Skips SQL generation and execution; narration LLM still runs. |
 | `follow_up_detector` | Reads the `force_follow_up` flag from the UI toggle; routes to CTE path or fresh query |
 | `schema_loader` | Reads DDL from DuckDB; filters to the active table only - no row data sent to the LLM |
 | `table_selector` | Single-table fast-path when only one table exists after schema load |
@@ -98,10 +98,12 @@ Chat history persists across restarts via SQLite.
 - Temperature 0.0 for deterministic SQL
 
 **Narration length tiers:**
-- 1 row, 1 column: one bold sentence
-- 2-8 rows: bullet per row
-- 9-30 rows: top 3 / bottom 3 flat sections, max 600 tokens
+- 1 row, 1 column: one bold sentence, max 300 tokens
+- 2-8 rows (with numeric columns): bullet per row, max 300 tokens
+- 9-10 rows (with numeric columns): top 3 / bottom 3 flat sections, max 300 tokens
+- 11-30 rows (with numeric columns): top 3 / bottom 3 flat sections, max 600 tokens
 - 30+ rows: 3-5 flat insight bullets only, max 350 tokens - no nested lists, no data enumeration
+- No numeric columns: 2 to 3 bullet points maximum, no headings
 
 **Result object:** `QueryResult` dataclass - never raises. Always check `result.error` first.
 
