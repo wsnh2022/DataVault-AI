@@ -21,3 +21,6 @@ CLAUDE.md
 .streamlit/
 showcase/result.pdf
 showcase/result.xlsx
+gitsync.bat 
+deploy-log.txt 
+.gitsync.lock 
