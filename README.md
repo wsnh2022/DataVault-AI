@@ -80,7 +80,6 @@ User types a question
 
 QueryResult(question, sql, df, narration, grounding, error, retried, is_follow_up)
     -> NiceGUI: narration card + SQL expansion + scrollable table + PDF/Excel buttons
-    -> LLM log saved: question + model + token usage
 ```
 
 ---
@@ -92,8 +91,8 @@ Every conversation is saved to SQLite (`data/chat_history.db`). Previous chats a
 in the left sidebar on every restart. Click any chat to restore the full conversation
 including narration, SQL, and data tables. Click X to delete a chat permanently.
 
-### Multi-Format Support
-Upload a CSV or Excel files in one session. A file switcher dropdown appears at
+### Multi-File Support
+Upload multiple CSV or Excel files in one session. A file switcher dropdown appears at
 the bottom of the input bar when more than one file is loaded. Each file is queried
 independently in single-table mode - no cross-file JOINs are ever generated.
 
@@ -125,14 +124,21 @@ AI-generated query suggestions based on your dataset's columns and types, loaded
 the background after each upload. Also shows editable snippet groups from
 `prompt_snippets.json` - add and delete prompts that persist across restarts.
 
+### Smart Clarification
+Before running any query, the app checks if your question is too vague to produce
+reliable results. If it is, it asks you one targeted clarifying question in the chat.
+Once your intent is clear, the pipeline runs with the enriched question. Fails open -
+if the check errors, your original question runs immediately.
+
+### Upload Data Sanity Check
+Immediately after every upload, 11 automated checks run against your data. Issues are
+surfaced as warnings before you ask a single question - not buried in query errors.
+Checks include: empty tables, high null rates, duplicate rows, numeric values stored
+as text, unparseable date columns, future dates, and negative values in amount columns.
+
 ### Data Privacy
 The LLM only receives table schema (column names and types) - no actual row data is
 sent in the SQL generation prompt. Your data stays on your machine.
-
-### LLM Request Logs Tab
-Every successful query is logged to SQLite with: timestamp, question, model used,
-prompt tokens, completion tokens, and total tokens. Logs are visible in the **LLM Logs**
-tab and auto-pruned to the last 150 entries. A **Export CSV** button downloads the full log.
 
 ### PDF / Excel Export
 Every query result with data has PDF and Excel download buttons. Exports run in a
