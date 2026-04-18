@@ -1,0 +1,362 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1430" viewBox="0 0 960 1430">
+  <defs>
+    <marker id="arr-gray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8"/>
+    </marker>
+    <marker id="arr-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#dc2626"/>
+    </marker>
+    <marker id="arr-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#059669"/>
+    </marker>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#00000015"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="1430" fill="#f8fafc"/>
+
+  <!-- ======================================================= -->
+  <!-- SECTION 1 - OVERVIEW                                    -->
+  <!-- ======================================================= -->
+
+  <text x="480" y="48" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="22" font-weight="700" fill="#1e293b">
+    How DataVault AI Works
+  </text>
+  <text x="480" y="70" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" fill="#64748b">
+    Ask questions about your data in plain English - no SQL needed.
+  </text>
+
+  <!-- Step 1: Upload (Sky Blue) -->
+  <rect x="50"  y="90" width="185" height="82" rx="10" fill="#0284c7" filter="url(#shadow)"/>
+  <rect x="50"  y="90" width="185" height="6"  rx="3"  fill="#0369a1"/>
+  <text x="142" y="126" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#ffffff">Upload your file</text>
+  <text x="142" y="148" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#bae6fd">Drop any CSV or Excel file</text>
+
+  <!-- Arrow 1 -->
+  <line x1="235" y1="131" x2="272" y2="131"
+        stroke="#94a3b8" stroke-width="2" marker-end="url(#arr-gray)"/>
+
+  <!-- Step 2: Ask (Slate) -->
+  <rect x="275" y="90" width="185" height="82" rx="10" fill="#475569" filter="url(#shadow)"/>
+  <rect x="275" y="90" width="185" height="6"  rx="3"  fill="#334155"/>
+  <text x="367" y="126" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#ffffff">Ask a question</text>
+  <text x="367" y="148" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#cbd5e1">Type it in plain English</text>
+
+  <!-- Arrow 2 -->
+  <line x1="460" y1="131" x2="497" y2="131"
+        stroke="#94a3b8" stroke-width="2" marker-end="url(#arr-gray)"/>
+
+  <!-- Step 3: AI (Violet) -->
+  <rect x="500" y="90" width="185" height="82" rx="10" fill="#7c3aed" filter="url(#shadow)"/>
+  <rect x="500" y="90" width="185" height="6"  rx="3"  fill="#6d28d9"/>
+  <text x="592" y="126" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#ffffff">AI finds the answer</text>
+  <text x="592" y="148" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#ddd6fe">Queries your data, no code</text>
+
+  <!-- Arrow 3 -->
+  <line x1="685" y1="131" x2="722" y2="131"
+        stroke="#94a3b8" stroke-width="2" marker-end="url(#arr-gray)"/>
+
+  <!-- Step 4: Result (Amber) -->
+  <rect x="725" y="90" width="185" height="82" rx="10" fill="#b45309" filter="url(#shadow)"/>
+  <rect x="725" y="90" width="185" height="6"  rx="3"  fill="#92400e"/>
+  <text x="817" y="126" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#ffffff">Get your result</text>
+  <text x="817" y="148" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#fde68a">Narrated answer + export</text>
+
+  <!-- ======================================================= -->
+  <!-- DIVIDER                                                  -->
+  <!-- ======================================================= -->
+
+  <line x1="40" y1="198" x2="920" y2="198" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="480" y="218" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="12" fill="#94a3b8">
+    What happens behind the scenes when you ask a question
+  </text>
+
+  <!-- ======================================================= -->
+  <!-- SECTION 2 - PIPELINE NODES                              -->
+  <!-- Node template: x=300, width=360, height=70, rx=10       -->
+  <!-- Spacing: 70 height + 25 gap = 95px per node             -->
+  <!-- N1=230  N2=325  N3=420  N4=515  N5=610                  -->
+  <!-- N6=705  N7=800  N8=895  N9=990  N10=1085  N11=1180      -->
+  <!-- ======================================================= -->
+
+  <!-- Bypass: green dashed path from N1 left-mid to N10 left-mid -->
+  <path d="M300,265 L245,265 L245,1120 L300,1120"
+        fill="none" stroke="#059669" stroke-width="1.5"
+        stroke-dasharray="6,4" marker-end="url(#arr-green)"/>
+  <text x="185" y="268"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="9" fill="#059669" font-style="italic">instant match</text>
+
+  <!-- N1: Quick Answer Check (green) -->
+  <rect x="300" y="230" width="360" height="70" rx="10" fill="#ffffff" filter="url(#shadow)"/>
+  <rect x="300" y="230" width="8"   height="70" rx="3"  fill="#059669"/>
+  <text x="322" y="255"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#1e293b">Quick Answer Check</text>
+  <text x="322" y="276"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#64748b">Spots common questions and answers instantly</text>
+  <rect x="596" y="243" width="52" height="22" rx="11" fill="#dcfce7"/>
+  <text x="622" y="258" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="10" font-weight="600" fill="#059669">Fast</text>
+
+  <line x1="480" y1="300" x2="480" y2="320"
+        stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <!-- N2: Follow-up Detector (slate) -->
+  <rect x="300" y="325" width="360" height="70" rx="10" fill="#ffffff" filter="url(#shadow)"/>
+  <rect x="300" y="325" width="8"   height="70" rx="3"  fill="#64748b"/>
+  <text x="322" y="350"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#1e293b">Follow-up Detector</text>
+  <text x="322" y="371"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#64748b">Fresh start, or continuing from your last result?</text>
+
+  <line x1="480" y1="395" x2="480" y2="415"
+        stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <!-- N3: Table Reader (slate) + error exit -->
+  <rect x="300" y="420" width="360" height="70" rx="10" fill="#ffffff" filter="url(#shadow)"/>
+  <rect x="300" y="420" width="8"   height="70" rx="3"  fill="#64748b"/>
+  <text x="322" y="445"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#1e293b">Table Reader</text>
+  <text x="322" y="466"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#64748b">Reads your table's column names and structure</text>
+  <line x1="660" y1="455" x2="698" y2="455"
+        stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-red)"/>
+  <rect x="700" y="443" width="60" height="24" rx="12" fill="#fee2e2"/>
+  <text x="730" y="459" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="10" font-weight="600" fill="#dc2626">Stop</text>
+  <text x="679" y="440"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="9" fill="#dc2626" font-style="italic">not found</text>
+
+  <line x1="480" y1="490" x2="480" y2="510"
+        stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <!-- N4: Column Picker (slate) -->
+  <rect x="300" y="515" width="360" height="70" rx="10" fill="#ffffff" filter="url(#shadow)"/>
+  <rect x="300" y="515" width="8"   height="70" rx="3"  fill="#64748b"/>
+  <text x="322" y="540"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#1e293b">Column Picker</text>
+  <text x="322" y="561"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#64748b">Picks the right table when multiple files are loaded</text>
+
+  <line x1="480" y1="585" x2="480" y2="605"
+        stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <!-- N5: Context Builder (slate) -->
+  <rect x="300" y="610" width="360" height="70" rx="10" fill="#ffffff" filter="url(#shadow)"/>
+  <rect x="300" y="610" width="8"   height="70" rx="3"  fill="#64748b"/>
+  <text x="322" y="635"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#1e293b">Context Builder</text>
+  <text x="322" y="656"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#64748b">Connects your question to the previous result</text>
+
+  <line x1="480" y1="680" x2="480" y2="700"
+        stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <!-- N6: Query Writer (violet + AI badge) -->
+  <rect x="300" y="705" width="360" height="70" rx="10" fill="#ffffff" filter="url(#shadow)"/>
+  <rect x="300" y="705" width="8"   height="70" rx="3"  fill="#7c3aed"/>
+  <text x="322" y="730"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#1e293b">Query Writer</text>
+  <text x="322" y="751"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#64748b">AI writes the database query for your question</text>
+  <rect x="601" y="718" width="40" height="22" rx="11" fill="#ede9fe"/>
+  <text x="621" y="733" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="10" font-weight="700" fill="#7c3aed">AI</text>
+
+  <line x1="480" y1="775" x2="480" y2="795"
+        stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <!-- N7: Safety Check (red) + error exit -->
+  <rect x="300" y="800" width="360" height="70" rx="10" fill="#ffffff" filter="url(#shadow)"/>
+  <rect x="300" y="800" width="8"   height="70" rx="3"  fill="#dc2626"/>
+  <text x="322" y="825"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#1e293b">Safety Check</text>
+  <text x="322" y="846"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#64748b">Blocks any query that could modify your data</text>
+  <line x1="660" y1="835" x2="698" y2="835"
+        stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-red)"/>
+  <rect x="700" y="823" width="60" height="24" rx="12" fill="#fee2e2"/>
+  <text x="730" y="839" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="10" font-weight="600" fill="#dc2626">Stop</text>
+  <text x="671" y="820"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="9" fill="#dc2626" font-style="italic">unsafe query</text>
+
+  <line x1="480" y1="870" x2="480" y2="890"
+        stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <!-- N8: Query Runner (slate) + error exit -->
+  <rect x="300" y="895" width="360" height="70" rx="10" fill="#ffffff" filter="url(#shadow)"/>
+  <rect x="300" y="895" width="8"   height="70" rx="3"  fill="#64748b"/>
+  <text x="322" y="920"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#1e293b">Query Runner</text>
+  <text x="322" y="941"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#64748b">Runs the query and retries once if it fails</text>
+  <line x1="660" y1="930" x2="698" y2="930"
+        stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-red)"/>
+  <rect x="700" y="918" width="60" height="24" rx="12" fill="#fee2e2"/>
+  <text x="730" y="934" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="10" font-weight="600" fill="#dc2626">Stop</text>
+  <text x="671" y="915"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="9" fill="#dc2626" font-style="italic">query failed</text>
+
+  <line x1="480" y1="965" x2="480" y2="985"
+        stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <!-- N9: Empty Result Check (slate) -->
+  <rect x="300" y="990" width="360" height="70" rx="10" fill="#ffffff" filter="url(#shadow)"/>
+  <rect x="300" y="990" width="8"   height="70" rx="3"  fill="#64748b"/>
+  <text x="322" y="1015"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#1e293b">Empty Result Check</text>
+  <text x="322" y="1036"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#64748b">If no results found, retries with a broader search</text>
+
+  <line x1="480" y1="1060" x2="480" y2="1080"
+        stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <!-- N10: Answer Writer (violet + AI badge) -->
+  <rect x="300" y="1085" width="360" height="70" rx="10" fill="#ffffff" filter="url(#shadow)"/>
+  <rect x="300" y="1085" width="8"   height="70" rx="3"  fill="#7c3aed"/>
+  <text x="322" y="1110"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#1e293b">Answer Writer</text>
+  <text x="322" y="1131"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#64748b">AI explains the result in clear, plain English</text>
+  <rect x="601" y="1098" width="40" height="22" rx="11" fill="#ede9fe"/>
+  <text x="621" y="1113" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="10" font-weight="700" fill="#7c3aed">AI</text>
+
+  <line x1="480" y1="1155" x2="480" y2="1175"
+        stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <!-- N11: Fact Checker (slate) -->
+  <rect x="300" y="1180" width="360" height="70" rx="10" fill="#ffffff" filter="url(#shadow)"/>
+  <rect x="300" y="1180" width="8"   height="70" rx="3"  fill="#64748b"/>
+  <text x="322" y="1205"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="13" font-weight="700" fill="#1e293b">Fact Checker</text>
+  <text x="322" y="1226"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#64748b">Confirms all numbers match your actual data</text>
+
+  <line x1="480" y1="1250" x2="480" y2="1272"
+        stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <!-- ======================================================= -->
+  <!-- SECTION 3 - RESULT CARD                                 -->
+  <!-- ======================================================= -->
+
+  <rect x="130" y="1278" width="700" height="118" rx="10" fill="#ffffff" filter="url(#shadow)"/>
+  <rect x="130" y="1278" width="8"   height="118" rx="3"  fill="#b45309"/>
+
+  <text x="152" y="1304"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="14" font-weight="700" fill="#1e293b">Your Answer</text>
+
+  <!-- Left column -->
+  <text x="152" y="1328"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" font-weight="600" fill="#b45309">What you see</text>
+  <text x="152" y="1347"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#475569">Narrated summary · Data table · PDF download · Excel download</text>
+  <text x="152" y="1366"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#475569">Full conversation history saved for every session</text>
+
+  <!-- Vertical divider inside card -->
+  <line x1="490" y1="1292" x2="490" y2="1382" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Right column -->
+  <text x="510" y="1328"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" font-weight="600" fill="#b45309">What is logged</text>
+  <text x="510" y="1347"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#475569">SQL query used · AI model · Token usage</text>
+  <text x="510" y="1366"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" fill="#475569">Auto-pruned log of the last 150 queries</text>
+
+  <!-- ======================================================= -->
+  <!-- LEGEND (bottom right)                                   -->
+  <!-- ======================================================= -->
+
+  <rect x="760" y="1278" width="160" height="118" rx="8" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="840" y="1298" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="11" font-weight="600" fill="#475569">Legend</text>
+
+  <rect x="775" y="1308" width="6" height="16" rx="2" fill="#059669"/>
+  <text x="787" y="1320"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="10" fill="#475569">Fast path (no AI)</text>
+
+  <rect x="775" y="1330" width="6" height="16" rx="2" fill="#7c3aed"/>
+  <text x="787" y="1342"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="10" fill="#475569">AI model call</text>
+
+  <rect x="775" y="1352" width="6" height="16" rx="2" fill="#dc2626"/>
+  <text x="787" y="1364"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="10" fill="#475569">Safety exit (Stop)</text>
+
+  <line x1="775" y1="1382" x2="790" y2="1382"
+        stroke="#059669" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="796" y="1386"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="10" fill="#475569">Bypass route</text>
+
+</svg>
