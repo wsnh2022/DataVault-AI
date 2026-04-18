@@ -12,7 +12,7 @@ your data and a structured markdown answer - no SQL knowledge required.
 |---|---|---|---|
 | **UI** | [NiceGUI](https://nicegui.io) | 3.10.0 | Web UI, file upload, chat interface, tabs, sidebar |
 | **Database** | [DuckDB](https://duckdb.org) | >=0.10.0 | In-process SQL engine - runs SELECT on CSV/Excel data |
-| **Chat History** | SQLite (stdlib) | - | Persistent chat sessions via `core/chat_store.py` |
+| **Chat History** | [SQLite](https://sqlite.org) | - | Persistent chat sessions via `core/chat_store.py` |
 | **Pipeline** | [LangGraph](https://langchain-ai.github.io/langgraph/) | >=1.0.0 | StateGraph pipeline orchestration (nodes + conditional edges) |
 | **LLM Gateway** | [OpenRouter](https://openrouter.ai) | API | Routes to multiple LLM providers via a single API key |
 | **Primary LLM** | DeepSeek V3 (`deepseek/deepseek-chat`) | - | SQL generation (temp 0.0) + narration (temp 0.3) |
