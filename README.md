@@ -277,3 +277,20 @@ Or from terminal: `powershell -Command "Stop-Process -Id (netstat -ano | Select-
 The DB is at `data/chat_history.db` relative to the project folder. Always launch the
 app from the project directory using `start_DataVault_AI.bat` or with the project folder as
 the working directory. The Refresh icon in the header also re-loads the sidebar.
+
+### Yellow warning banner - "Some numbers not found verbatim in data"
+This is the grounding check. After the AI writes its answer, every number mentioned in
+the text is verified against the actual values in the result table. The warning appears
+when a number in the narration does not match any cell value in the data.
+
+**This is non-blocking - your answer is not wrong.** Common reasons it triggers:
+
+- The AI mentioned a row count ("27 rows") but row counts are not stored as cell values
+- The AI derived a percentage mentally that does not appear as a column in the result
+- The AI referenced a total from the full dataset while the result shows a filtered subset
+
+**When to ignore it:** If the numbers in the data table below the answer look correct,
+the warning is a false positive and can be disregarded.
+
+**When to investigate:** If a specific number in the narration does not match what you
+see in the table, the AI may have hallucinated that value - re-run the query or rephrase.
