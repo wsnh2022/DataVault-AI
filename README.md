@@ -93,7 +93,7 @@ in the left sidebar on every restart. Click any chat to restore the full convers
 including narration, SQL, and data tables. Click X to delete a chat permanently.
 
 ### Multi-File Support
-Upload multiple CSV or Excel files in one session. A file switcher dropdown appears at
+Upload a CSV or Excel files in one session. A file switcher dropdown appears at
 the bottom of the input bar when more than one file is loaded. Each file is queried
 independently in single-table mode - no cross-file JOINs are ever generated.
 
