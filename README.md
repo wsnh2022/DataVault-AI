@@ -54,6 +54,11 @@ Browser opens automatically at http://localhost:8080
 
 ## How It Works
 
+![How It Works](docs/how_it_works.svg)
+
+<details>
+<summary>View as text</summary>
+
 ```
 Upload CSV/Excel
     -> Sanitize column names (spaces/slashes -> underscores, lowercased)
@@ -81,6 +86,8 @@ User types a question
 QueryResult(question, sql, df, narration, grounding, error, retried, is_follow_up)
     -> NiceGUI: narration card + SQL expansion + scrollable table + PDF/Excel buttons
 ```
+
+</details>
 
 ---
 
