@@ -1,8 +1,6 @@
 # DataVault AI
 
-A local desktop app that lets you query any CSV or Excel file in plain English.
-Upload your file, ask a question in natural language, get SQL executed against
-your data and a structured markdown answer - no SQL knowledge required.
+Most people have data but no way to talk to it. DataVault AI changes that - upload any CSV or Excel file, ask a question in plain English, and get a real answer backed by actual SQL. No formulas. No syntax. No guessing. Just your data, finally speaking your language
 
 ---
 
