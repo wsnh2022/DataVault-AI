@@ -86,7 +86,7 @@ Every session is saved locally. Return to any past conversation, reload results,
 Schema Load  ->  SQL Generation (DeepSeek V3)  ->  Validation  ->  Execution  ->  Narration + Grounding
 
 **Schema Load**
-Fetches table structure and 3 sample rows from the local database to give the AI full context.
+Fetches table structure (column names and types) from the local database - no row data is sent to the AI.
 
 **SQL Generation**
 Primary model: DeepSeek V3 (temperature 0.0 - fully deterministic). Generates precise DuckDB SQL from your question.
@@ -233,7 +233,7 @@ Add your OpenRouter API key to the `.env` file in the project root:
 Double-click `setup.bat` - it creates a virtual environment, installs all dependencies, and runs the smoke tests automatically.
 
 **Step 3 - Launch the app**
-Double-click `start_chatbot.bat` - the app opens in your default browser. Upload a CSV or Excel file and start asking questions.
+Double-click `start_DataVault_AI.bat` - the app opens in your default browser. Upload a CSV or Excel file and start asking questions.
 
 ---
 DataVault AI - Local AI Analytics Platform

@@ -81,7 +81,7 @@ Chat history persists across restarts via SQLite.
 |---|---|
 | `fast_path` | Detects exact prompt snippet matches and dispatches directly to pandas - no LLM call, no SQL |
 | `follow_up_detector` | Reads the `force_follow_up` flag from the UI toggle; routes to CTE path or fresh query |
-| `schema_loader` | Reads DDL and 3 synthetic sample rows from DuckDB; filters to the active table only |
+| `schema_loader` | Reads DDL from DuckDB; filters to the active table only - no row data sent to the LLM |
 | `table_selector` | Single-table fast-path when only one table exists after schema load |
 | `cte_builder` | Wraps previous SQL as `WITH prev_result AS (...)` for follow-up queries |
 | `sql_generator` | LLM call → DuckDB SQL; post-processes backticks to double-quotes, fixes `MIN "col"` → `MIN("col")` |
@@ -311,49 +311,30 @@ Only raises `RuntimeError` if all three fail.
 
 ---
 
-## 14. Data Privacy - Synthetic Sample Rows
+## 14. Data Privacy
 
-**What it does:** Replaces all real cell values in the sample rows sent to the LLM with Faker-generated synthetic equivalents, so actual data never leaves the machine.
-
-**Why it is needed:** Every LLM call for SQL generation includes 3 sample rows from the uploaded table as context. Without anonymization, real names, emails, amounts, and dates are transmitted to OpenRouter and potentially logged by the model provider.
+**What it does:** Ensures no actual row data from uploaded files is sent to the LLM.
 
 **How it works:**
-- `synthesize_df(df)` in `core/sql_executor.py` iterates over every column, reads the pandas dtype, and generates a realistic fake value using column-name heuristics:
+- The `schema_loader` node sends only table DDL (column names and types) to the LLM - no row values at all.
+- The SQL generator receives the schema and the user's question - enough to generate correct SQL without seeing any data.
+- AI suggestions are generated from column names and types only.
 
-| Column dtype | Column name hint | Generated value example |
-|---|---|---|
-| string | `email` | `jsmith@example.com` |
-| string | `name` | `Kelly Gates` |
-| string | `city` | `Austin` |
-| string | `status`, `type` | `active` / `pending` |
-| string | `company` | `Acme Corp` |
-| integer | `id`, `code` | `27005` |
-| integer | `age` | `34` |
-| float | `rate`, `pct` | `61.42` |
-| float | `revenue`, `amount` | `9501.60` |
-| datetime | any | `2024-07-15` |
-| boolean | any | `True` |
+**What the LLM receives:**
+- Column names and data types (DDL)
+- The user's natural language question
 
-- Column names and types (DDL) are always sent as-is - the LLM needs them for SQL generation.
-- Applied in two places: `schema_loader_node` (3 rows for SQL generation) and `generate_suggestions_llm` in `app.py` (5 rows for AI suggestion chips).
-- Uses the `faker` library (v33+), installed in the project venv.
+**What the LLM never receives:**
+- Actual cell values from uploaded files
+- Any row data, names, emails, amounts, or dates from the dataset
 
-**What the LLM receives instead of real data:**
-
-```
-accident_id,city,state,latitude,longitude,date
-27005,North Elizabethtown,Wyoming,60.22,-21.07,2024-03-12
-99027,Lake Sandra,Kansas,-54.82,142.22,2023-11-08
-34325,East Brian,Arkansas,46.23,-47.63,2024-07-01
-```
-
-The LLM still has full DDL with column names and types - enough to generate correct SQL.
+All query execution happens locally via DuckDB. Results are stored in local SQLite only.
 
 ---
 
 ## 15. LLM Request Logs
 
-**What it does:** Records every successful LLM-backed query with token usage and the exact synthetic rows that were sent, visible in a dedicated tab and exportable as CSV.
+**What it does:** Records every successful LLM-backed query with token usage, visible in a dedicated tab and exportable as CSV.
 
 **Storage:** `llm_logs` table in `data/chat_history.db` (same SQLite file as chat history).
 
@@ -367,7 +348,7 @@ The LLM still has full DDL with column names and types - enough to generate corr
 | `prompt_tokens` | INTEGER | Tokens in the prompt across all LLM calls for this request |
 | `completion_tokens` | INTEGER | Tokens in the response |
 | `total_tokens` | INTEGER | Sum of prompt + completion |
-| `sample_csv` | TEXT | Synthetic CSV rows sent to the LLM for this request |
+| `sample_csv` | TEXT | Reserved column (not currently populated - schema-only prompts send no row data) |
 | `created_at` | TEXT | ISO UTC timestamp |
 
 **Auto-prune:** After every insert, rows outside the most recent 150 are deleted:
@@ -378,7 +359,6 @@ DELETE FROM llm_logs WHERE id NOT IN (SELECT id FROM llm_logs ORDER BY id DESC L
 **LLM Logs tab (UI):**
 - Shows one card per request, newest first
 - Each card: timestamp, model badge, full question text, token counters (Prompt / Completion / Total) with colored numbers
-- Expandable "Synthetic rows sent to AI" section renders the CSV as a proper table with column headers
 - **Export CSV** button at the top downloads all 150 log entries as a flat CSV file
 - Tab is rebuilt on every app startup and after each new request
 
@@ -393,7 +373,7 @@ DELETE FROM llm_logs WHERE id NOT IN (SELECT id FROM llm_logs ORDER BY id DESC L
 setup.bat
 
 # Start the app
-start_chatbot.bat
+start_DataVault_AI.bat
 
 # Run smoke tests (no API calls)
 python -m pytest tests/smoke_test.py -v

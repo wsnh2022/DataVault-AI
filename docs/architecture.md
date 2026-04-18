@@ -161,7 +161,7 @@ flowchart TD
 
     FUD --> SL
 
-    SL["schema_loader\nFetch DDL from information_schema\nFetch 3 sample rows\nFilter schema to active_table only"]
+    SL["schema_loader\nFetch DDL from information_schema\nFilter schema to active_table only\nNo row data sent to LLM"]
 
     SL -->|"error\nDuckDB unreachable or no tables"| DEAD1(["END - error returned"])
 
