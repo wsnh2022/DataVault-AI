@@ -23,7 +23,8 @@ your data and a structured markdown answer - no SQL knowledge required.
 | **PDF Export** | [fpdf2](https://py-pdf.github.io/fpdf2/) | >=2.7.0 | DataFrame to PDF bytes (landscape A4) |
 | **HTTP Client** | [httpx](https://www.python-httpx.org) | >=0.27.0 | Raw HTTP calls to OpenRouter (no openai SDK) |
 | **Config** | [python-dotenv](https://saurabh-kumar.com/python-dotenv/) | >=1.0.0 | `.env` loading via `dotenv_values()` |
-| **Synthetic Data** | [Faker](https://faker.readthedocs.io) | >=33.0.0 | Generates realistic fake sample rows before sending to LLM |
+| **Markdown** | [markdown2](https://github.com/trentm/python-markdown2) | >=2.4.0 | Renders LLM narration output in the UI |
+| **SQL Parsing** | [sqlparse](https://github.com/andialbrecht/sqlparse) | >=0.5.0 | SQL formatting and parsing utilities |
 | **Testing** | [pytest](https://pytest.org) | - | Smoke tests (8 tests, no API calls) |
 | **Runtime** | Python | 3.10+ | TypedDict, union type hints, async/await |
 
@@ -40,7 +41,7 @@ REM 3. Run setup (creates venv, installs deps, runs smoke tests)
 setup.bat
 
 REM 4. Start the app
-start_chatbot.bat
+start_DataVault_AI.bat
 REM   or manually:
 REM   .venv\Scripts\activate && python app.py
 ```
@@ -66,7 +67,7 @@ User types a question
             follow_up_detector  reads follow_up_enabled flag from UI toggle
                                 ON + valid prev SQL -> cte_follow_up
                                 OFF -> fresh query against full dataset
-            schema_loader       DDL + 3 synthetic sample rows; filters to active_table only
+            schema_loader       DDL only (schema + types); filters to active_table only
             table_selector      single-table fast-path (no LLM call needed)
             cte_builder         wrap prev SQL as WITH prev_result AS (...)
             sql_generator       LLM call -> raw SQL (DuckDB dialect, single-table)
@@ -78,7 +79,7 @@ User types a question
 
 QueryResult(sql, df, narration, grounding, error, retried, is_follow_up, sample_csv)
     -> NiceGUI: narration card + SQL expansion + scrollable table + PDF/Excel buttons
-    -> LLM log saved: question + model + token usage + synthetic rows sent
+    -> LLM log saved: question + model + token usage
 ```
 
 ---
@@ -123,19 +124,14 @@ AI-generated query suggestions based on your dataset's columns and types, loaded
 the background after each upload. Also shows editable snippet groups from
 `prompt_snippets.json` - add and delete prompts that persist across restarts.
 
-### Data Privacy - Synthetic Sample Rows
-Real data never leaves your machine. Before each LLM call, the 3 sample rows used
-for SQL context are replaced with Faker-generated synthetic values. Column names and
-types are preserved so the LLM still generates correct SQL, but actual cell values
-(names, emails, amounts, dates) are replaced with realistic fake equivalents.
-
-The 5 rows used for AI suggestion generation are anonymized the same way.
+### Data Privacy
+The LLM only receives table schema (column names and types) - no actual row data is
+sent in the SQL generation prompt. Your data stays on your machine.
 
 ### LLM Request Logs Tab
 Every successful query is logged to SQLite with: timestamp, question, model used,
-prompt tokens, completion tokens, total tokens, and the exact synthetic rows that
-were sent to the LLM. Logs are visible in the **LLM Logs** tab and auto-pruned to
-the last 150 entries. A **Export CSV** button downloads the full log.
+prompt tokens, completion tokens, and total tokens. Logs are visible in the **LLM Logs**
+tab and auto-pruned to the last 150 entries. A **Export CSV** button downloads the full log.
 
 ### PDF / Excel Export
 Every query result with data has PDF and Excel download buttons. Exports run in a
@@ -152,22 +148,22 @@ DataVault-AI/
 |- prompt_snippets.json      # Saved snippet card prompts (3 groups)
 |- requirements.txt
 |- setup.bat                 # One-command venv + install + smoke test
-|- start_chatbot.bat         # Quick launch: python app.py
-|- phase.md                  # Migration phases + completion status
+|- start_DataVault_AI.bat    # Quick launch: python app.py
 |- .env                      # API key (not committed)
 |- core/
 |   |- chat_store.py         # SQLite chat history (chats + messages tables)
 |   |- query_pipeline.py     # Thin wrapper: builds state, invokes graph, returns QueryResult
 |   |- graph_pipeline.py     # LangGraph StateGraph assembly and compilation
 |   |- graph_state.py        # PipelineState TypedDict (shared by all nodes)
-|   |- cte_utils.py          # merge_cte() - wraps prev SQL as named CTE
-|   |- pandas_dispatch.py    # Direct pandas shortcuts for known prompts (no LLM)
 |   |- llm_client.py         # Raw HTTP client for OpenRouter (httpx, no openai SDK)
-|   |- sql_generator.py      # Prompt builder + SQL post-processor
-|   |- sql_executor.py       # DuckDB runner + schema extractor + synthesize_df()
-|   |- sql_validator.py      # Pre-exec safety + empty result detection
-|   |- narrator.py           # DataFrame -> structured markdown via LLM
-|   |- grounding_verifier.py # Narration number sanity check (2dp tolerance)
+|   |- sql/
+|   |   |- cte_utils.py          # merge_cte() - wraps prev SQL as named CTE
+|   |   |- pandas_dispatch.py    # Direct pandas shortcuts for known prompts (no LLM)
+|   |   |- sql_generator.py      # Prompt builder + SQL post-processor
+|   |   |- sql_executor.py       # DuckDB runner + schema extractor
+|   |   |- sql_validator.py      # Pre-exec safety + empty result detection
+|   |   |- narrator.py           # DataFrame -> structured markdown via LLM
+|   |   `- grounding_verifier.py # Narration number sanity check (2dp tolerance)
 |   `- nodes/                # One file per LangGraph node
 |       |- fast_path.py
 |       |- follow_up_detector.py
@@ -265,5 +261,5 @@ Or from terminal: `powershell -Command "Stop-Process -Id (netstat -ano | Select-
 
 ### Chat history not showing after restart
 The DB is at `data/chat_history.db` relative to the project folder. Always launch the
-app from the project directory using `start_chatbot.bat` or with the project folder as
+app from the project directory using `start_DataVault_AI.bat` or with the project folder as
 the working directory. The Refresh icon in the header also re-loads the sidebar.
