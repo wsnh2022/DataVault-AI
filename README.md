@@ -1,4 +1,4 @@
-![Cover](showcase\repo_cover_image.png)
+![Cover](showcase/repo_cover_image.png)
 
 # DataVault AI
 
