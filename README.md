@@ -1,3 +1,5 @@
+![Cover](showcase\repo_cover_image.png)
+
 # DataVault AI
 
 Most people have data but no way to talk to it. DataVault AI changes that - upload any CSV or Excel file, ask a question in plain English, and get a real answer backed by actual SQL. No formulas. No syntax. No guessing. Just your data, finally speaking your language
